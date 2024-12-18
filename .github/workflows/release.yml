@@ -10,24 +10,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
+      - name: Install Packages
+        run: sudo apt update && sudo apt install g++ gcc-mingw-w64
+        
       - name: Build
-        run: ./build_linux.sh
-
-  release-windows:
-    runs-on: windows-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Build
-        run: ./build.bat
-
-  release-upload:
-    runs-on: ubuntu-20.04
-    needs: [release-linux, release-windows]
-    steps:
+        run: ./deploy.sh
+        
       - name: Upload artifacts
         uses: Roang-zero1/github-upload-release-artifacts-action@v2
         with:
-          args: "atmosim atmosim.exe"
+          args: "deploy/atmosim_windows.zip deploy/atmosim_linux.tar.gz"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
