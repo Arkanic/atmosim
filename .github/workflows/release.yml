@@ -5,23 +5,19 @@ on:
     types: [created]
 
 jobs:
-  release-checkout:
+  release-linux:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-  release-linux:
-    runs-on: ubuntu-20.04
-    needs: release-checkout
-    steps:
       - name: Build
         run: ./build_linux.sh
 
   release-windows:
     runs-on: windows-latest
-    needs: release-checkout
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Build
         run: ./build.bat
 
